@@ -1,0 +1,34 @@
+package employeedata;
+import java.util.*;
+import java.util.stream.*;
+
+class Employee {
+    int id;
+    String name;
+    String department;
+    double salary;
+    public Employee(int id, String name, String department, double salary) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+        this.salary = salary;
+    }
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+}
+public class EmployeeDataProcessing {
+	 public static void process(List<Employee> employees) {
+	        Map<String, Double> avgSalaryByDept = employees.stream()
+	            .filter(e -> e.department.equals("Engineering") && e.salary > 80000)
+	            .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+	            .collect(Collectors.groupingBy(e -> e.department,
+	                Collectors.averagingDouble(e -> e.salary)));
+
+	        System.out.println("Average Salary by Department: " + avgSalaryByDept);
+	 }
+}
